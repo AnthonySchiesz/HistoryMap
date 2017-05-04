@@ -1,0 +1,86 @@
+{% load static %}
+<!--DOCTYPE html-->
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Roboto">
+		<link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+
+		{% block head %}
+		<title>History Mapped</title>
+		{% endblock %}
+
+	</head>
+	<body>
+		<!-- Sidebar -->
+		<div id="sidenav" class="sidebar-nav">
+			<div class="sidebar-brand">
+				<h4>Select a Century</h4>
+				<img id="logo-menu" src="/slidebars/images/slidebars-logo-white.png" alt="LOGO">
+				</div>
+					<!--<li><a href="javascript:void(null)" onclick="toggleGroup('1200');"/> 13th Century (Pink)</a></li>-->
+					<!--<li><a href="javascript:void(null)" onclick="toggleGroup('1300');"/> 14th Century (Light Blue)</a></li>-->
+					<!--<li><a href="javascript:void(null)" onclick="toggleGroup('1400');"/> 15th Century (Orange)</a></li>-->
+					<!--<li><a href="javascript:void(null)" onclick="toggleGroup('1500');"/> 16th Century (Red)</a></li>-->
+				<div class="markers">
+					<div id="1600">
+						<ul>	
+							<li><a href="javascript:void(null)" onclick="toggleGroup('1600');"/> 17th Century (Purple)</a></li>
+						</ul>
+					</div>
+					<div id="1700">
+						<ul>	
+							<li><a href="javascript:void(null)" onclick="toggleGroup('1700');"/> 18th Century (Blue)</a></li>
+						</ul>
+					</div>
+					<div id="1800">
+						<ul>	
+							<li><a href="javascript:void(null)" onclick="toggleGroup('1800');"/> 19th Century (Green)</a></li>
+						</ul>
+					</div>
+					<div id="1900">
+						<ul>	
+							<li><a href="javascript:void(null)" onclick="toggleGroup('1900');"/> 20th Century (Yellow)</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Site Info Bar -->
+		<div id="siteinfo" class="siteinfo-bar">
+			<h3></h3>
+			</br>
+			<p></p>
+			<a></a>
+		</div>
+
+
+	<!--Empty div for the map-->	
+	<div id="map"></div>
+
+
+
+		<!--jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		
+		<!--Google Map API-->
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZx4p50k0-P3hJDCdeOwHrgx9eUV_Slso&callback=initialize" async defer></script>
+
+		<script src="{% static 'js/sidenav.js' %}" language="javascript" type="text/javascript"></script>
+		<script src="{% static 'xml/markers.xml' %}" language="javascript" type="text/xml"></script>
+		<script src="{% static 'js/map.js' %}" language="javascript" type="text/javascript"></script>
+
+		<!--Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+
+	</body>
+</html>
