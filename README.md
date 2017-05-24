@@ -3,6 +3,14 @@ Map of hidden historical locations - Unfinished
 
 ## Help Needed!!
 #### I need help with implementing a function for a user to select a century from the dropdown menu and display markers associated with that time period. Then if the user wants to select another century, and click on the next menu item, it hides the previous century selected and simultaneously displays the new item selected.
+The drop down menu div is located here:
+HistoryMap > templates > index.html > lines 22-39
+
+The javascript function I have tried to formulate the filter is here:
+HistoryMap > static > js > map.js > lines 228-240
+
+the XML markers I am trying to load and display:
+HistoryMap > static > xml > markers.xml
 
 ### Versioning
 Bootstrap is maintained under the Semantic Versioning guidelines.
