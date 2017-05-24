@@ -1,4 +1,5 @@
 var customIcons = {
+// icons to be associated with future century content	
 //	1200: {
 //		icon: 'http://maps.google.com/mapfiles/ms/icons/pink.png'
 //	},
@@ -32,6 +33,7 @@ var markerGroups = {
 	"1900": []
 };
 
+//Load map with custom style settings
 function initialize() {            
 	var map = new google.maps.Map(document.getElementById("map"), {
 		center: new google.maps.LatLng(40.7126168, -74.0058063),
@@ -200,9 +202,9 @@ function initialize() {
 	}
 	});
 	google.maps.event.addDomListener(window, 'load', initialize);
-
 };
 
+//Defining the marker
 function createMarker(point, name, type, map) {
 	var icon = customIcons[type] || {};
 	var marker = new google.maps.Marker({
@@ -210,8 +212,6 @@ function createMarker(point, name, type, map) {
 		position: point,
 		icon: icon.icon,
 		title: name,
-
-		// shadow: icon.shadow,
 		type: type
 	});
 
@@ -221,22 +221,25 @@ function createMarker(point, name, type, map) {
 	return marker;
 }
 
-function toggleGroup(type) {
+//Filter the markers through navbar dropdown div. Purpose is to click one century 
+// to show, then hide others not related to active selection.
+
+//WHY WONT THIS WORK?? No Markers appear. :(
+function filterMarkers(type) {
 	for (i = 0; i < markerGroups[type].length; i++) {
 		marker = markerGroups[type][i];
+		// If is same century or century not picked
 		if (marker.type == type || type.length === 0) {
-			if (!marker.getVisible()) {
 			marker.setVisible(true);
-			// Type (Century) does not match
-			} else {
-				marker.setVisible(false);
-			}
-		}else {
-			marker.setVisible(true);
+		}
+		// Centuries (type) don't match 
+		else {
+			marker.setVisible(false);
 		}
 	}
 }
 
+// Attach and display infoWindow when marker clicked. Info window displayed in sidebar.
 function bindInfoWindow(marker, map, infoWindow, html, link) {
 	// display site details in siteInfo bar
 	google.maps.event.addListener(marker, 'click', function() {
@@ -244,6 +247,7 @@ function bindInfoWindow(marker, map, infoWindow, html, link) {
 		document.getElementById('siteinfo').style.width = "255px";
 	});
 }
+
 
 function downloadUrl(url, callback) {
 	var request = window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest();
