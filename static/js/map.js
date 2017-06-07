@@ -224,7 +224,6 @@ function createMarker(point, name, type, map) {
 //Filter the markers through navbar dropdown div. Purpose is to click one century 
 // to show, then hide others not related to active selection.
 
-//WHY WONT THIS WORK?? No Markers appear. :(
 function filterMarkers(type) {
 	for (i = 0; i < markerGroups[type].length; i++) {
 		marker = markerGroups[type][i];
