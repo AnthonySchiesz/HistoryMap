@@ -22,22 +22,17 @@
 	<div id="century" class="navbar" tabindex="1">
 		<input type="hidden" class="select" id="" name="" value="" />
 		<span class="value">Select a Century</span>
-		<ul id="type" class="dropdown" onchange="filterMarkers(this.value);">
-			<!--Future items/centuries to be added-->
-			<!--<li><a href="javascript:void(null)" onclick="toggleGroup('1200');"/> 13th Century (Pink)</a></li>-->
-			<!--<li><a href="javascript:void(null)" onclick="toggleGroup('1300');"/> 14th Century (Light Blue)</a></li>-->
-			<!--<li><a href="javascript:void(null)" onclick="toggleGroup('1400');"/> 15th Century (Orange)</a></li>-->
-			<!--<li><a href="javascript:void(null)" onclick="toggleGroup('1500');"/> 16th Century (Red)</a></li>-->
-			<li value="1600">17th Century (Purple)</li>
+		<ul id="marker-list" class="dropdown" data-bind="foreach: array">
 
-			<li value="1700">18th Century (Blue)</li>
+			<li data-bind="click: $data.type" value="1600">17th Century (Purple)</li>
 
-			<li value="1800">19th Century (Green)</li>
+			<li data-bind="click: $data.type" value="1700">18th Century (Blue)</li>
 
-			<li value="1900">20th Century (Yellow)</li>
+			<li data-bind="click: $data.type" value="1800">19th Century (Green)</li>
+
+			<li data-bind="click: $data.type" value="1900">20th Century (Yellow)</li>
 		</ul>
 	</div>
-
 
 	<!-- Site Info Bar -->
 	<div id="siteinfo" class="siteinfo-bar"></div>
@@ -48,6 +43,9 @@
 
 
 
+		<!--Knockout.js-->
+		<script src="{% static 'js/knockout.js' %}" type='text/javascript'></script>
+
 		<!--jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		
@@ -56,7 +54,7 @@
 
 		<script src="{% static 'js/navbar.js' %}" language="javascript" type="text/javascript"></script>
 		<script src="{% static 'js/sidenav.js' %}" language="javascript" type="text/javascript"></script>
-		<script src="{% static 'xml/markers.xml' %}" language="javascript" type="text/xml"></script>
+		<script src="{% static 'js/model.js' %}" language="javascript" type="text/javascript"></script>
 		<script src="{% static 'js/map.js' %}" language="javascript" type="text/javascript"></script>
 
 		<!--Latest compiled and minified JavaScript -->
