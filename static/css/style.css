@@ -1,5 +1,5 @@
 /* Navbar */
-.navbar {
+.select-navbar {
     position: absolute;
     top: 15px;  /* adjust value accordingly */
     left: 15px;  /* adjust value accordingly */
@@ -7,30 +7,21 @@
     width: 200px;
     margin: 0 auto;
     padding: 15px;
-    border: 0px solid transparent;
+    border: 1px solid;
+    /*border: 0px solid transparent;*/
+    overflow: hidden;
 
     /* Style */
     background-color: #fff;
-    border-left: 5px solid grey;
+    border-radius: 3px;
+    /*border-left: 5px solid grey;*/
     cursor: pointer;
     outline: none;
     box-shadow: 0 1px 1px rgba(50,50,50,0.1);
 }
-/*Down Arrow*/
-.navbar:after {
-    content:"";
-    width: 0;
-    height: 0;
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    margin-top: -3px;
-    border-width: 6px 6px 0 6px;
-    border-style: solid;
-    border-color: grey transparent;
-}
-.navbar .dropdown {
-    /* Size and Position */
+
+.select-navbar select {
+    /*Size and Position*/
     position: absolute;
     top: 100%;
     left: -5px;
@@ -38,16 +29,16 @@
     z-index: 1000;
     padding-left: 0.0em;
 
-    /* Style */
+    /*Style*/ 
     background: white;
     list-style: none;
     box-shadow: 0 1px 1px rgba(50,50,50,0.1);
 
-    /* Hiding */
+    /* Hiding*/
     opacity: 0;
     pointer-events: none;
 }
-.navbar .dropdown li {
+.select-navbar option {
     display: block;
     width: 100%;
     text-decoration: none;
@@ -57,40 +48,14 @@
     z-index: 1000;
 }
 
-/*1600*/
-.navbar .dropdown li:nth-child(1) { 
-    border-left-color: #8e67fd;
-}
-/*1700*/
-.navbar .dropdown li:nth-child(2) {
-    border-left-color: #6991fd;
-}
-/*1800*/
-.navbar .dropdown li:nth-child(3) {
-    border-left-color: #00e64d;
-}
-/*1900*/
-.navbar .dropdown li:nth-child(4) {
-    border-left-color: #fdf569;
-}
-
-.navbar .dropdown li {
+.select-navbar option {
     margin-right: 5px;
     color: inherit;
     vertical-align: middle;
 }
 
-.navbar .dropdown li:hover {
+.select-navbar option:hover {
     background-color: #f4f4f4;
-}
-/*Up Arrow*/
-.navbar.active:after {
-    border-width: 0 6px 6px 6px;
-}
-
-.navbar.active .dropdown {
-    opacity: 1;
-    pointer-events: auto;
 }
 
 #map {
