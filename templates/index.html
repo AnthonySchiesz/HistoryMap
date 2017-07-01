@@ -18,11 +18,21 @@
 	</head>
 	<body>
 		
-	<!--Filter Century via select drop-down menu-->
-	<div>
-		<select class="select-navbar" data-bind="options:century, value:selectedCentury">
+	<div class="nav-container">
+		<!--Filter Century via select drop-down menu-->
+		<div>
+			<select class="select-bar" data-bind="options:century, value:selectedCentury">
 
-		</select>
+			</select>
+		</div>
+
+		<!--Location List displaying sites associated with selected century-->
+		<div class="loc-list">
+			<ul id="list">
+				<li></li>
+			</ul>
+		</div>
+		
 	</div>
 
 
@@ -50,7 +60,7 @@
 
 		<!--Javascript-->
 		<script src="{% static 'js/sidenav.js' %}" language="javascript" type="text/javascript"></script>
-		<script src="{% static 'js/model.js' %}" language="javascript" type="text/javascript"></script>
+		<script src="{% static 'js/style.js' %}" language="javascript" type="text/javascript"></script>
 		<script src="{% static 'js/map.js' %}" language="javascript" type="text/javascript"></script>
 
 		<!--Latest compiled and minified JavaScript -->
