@@ -127,25 +127,3 @@ var style = [{
 			color: "#97cbff"
 		}]
 }];
-
-
-var markers = {
-	currentMarker: null,
-	marker: [
-		{
-			type : '1600',
-			name : 'Fort Amsterdam',
-			location : {lat: 40.704100, lng: -74.013753},
-			detail : 'First military installation in New York.',
-			link : 'https://en.wikipedia.org/wiki/Fort_Amsterdam'
-		},
-		{
-			type : '1700',
-			name : 'St. Paul\'s Chapel of Trinity Church',
-			location : {lat: 40.711313, lng: -74.009190},
-			detail : 'The chruch President George Washington celebrated mass after being inagurated.',
-			link : 'https://en.wikipedia.org/wiki/St._Paul%27s_Chapel'
-		}
-
-	]
-};
