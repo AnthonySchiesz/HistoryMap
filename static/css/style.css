@@ -1,26 +1,49 @@
-/* Navbar */
-.select-navbar {
+/* Nav-Container */
+.nav-container {
     position: absolute;
-    top: 15px;  /* adjust value accordingly */
-    left: 15px;  /* adjust value accordingly */
+    left: 8px;  /* adjust value accordingly */
+    bottom: 8px;
     z-index: 1000;
-    width: 200px;
+    width: 325px;
+    height: 98%;
     margin: 0 auto;
     padding: 15px;
-    border: 1px solid;
     /*border: 0px solid transparent;*/
     overflow: hidden;
 
     /* Style */
     background-color: #fff;
-    border-radius: 3px;
+    border-radius: 2.5px;
+    /*border-left: 5px solid grey;*/
+    outline: none;
+    box-shadow: 1px 2px 6px -2px rgba(74,73,74,1);
+    -moz-box-shadow: 1px 2px 6px -2px rgba(74,73,74,1);
+        -webkit-box-shadow: 1px 2px 6px -2px rgba(74,73,74,1);
+}
+
+/* Century Filter */
+.select-bar {
+    position: absolute;
+    top: 15px;  /* adjust value accordingly */
+    left: 10px;  /* adjust value accordingly */
+    z-index: 1001;
+    width: 300px;
+    height: 48px;
+    margin: 0 auto;
+    padding: 15px;
+    /*border: 0px solid transparent;*/
+    overflow: hidden;
+
+    /* Style */
+    background-color: #d1d1d1 solid;
+    border-radius: 2.5px;
     /*border-left: 5px solid grey;*/
     cursor: pointer;
     outline: none;
     box-shadow: 0 1px 1px rgba(50,50,50,0.1);
 }
 
-.select-navbar select {
+.select-bar select {
     /*Size and Position*/
     position: absolute;
     top: 100%;
@@ -38,7 +61,7 @@
     opacity: 0;
     pointer-events: none;
 }
-.select-navbar option {
+.select-bar option {
     display: block;
     width: 100%;
     text-decoration: none;
@@ -48,13 +71,13 @@
     z-index: 1000;
 }
 
-.select-navbar option {
+.select-bar option {
     margin-right: 5px;
     color: inherit;
     vertical-align: middle;
 }
 
-.select-navbar option:hover {
+.select-bar option:hover {
     background-color: #f4f4f4;
 }
 
