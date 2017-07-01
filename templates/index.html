@@ -18,24 +18,20 @@
 	</head>
 	<body>
 		
-	<!-- Navbar -->
-	<div id="century" class="navbar" tabindex="1">
-		<input type="hidden" class="select" id="" name="" value="" />
-		<span class="value">Select a Century</span>
-		<ul id="marker-list" class="dropdown" data-bind="foreach: array">
+	<!--Filter Century via select drop-down menu-->
+	<div>
+		<select class="select-navbar" data-bind="options:century, value:selectedCentury">
 
-			<li data-bind="click: $data.type" value="1600">17th Century (Purple)</li>
-
-			<li data-bind="click: $data.type" value="1700">18th Century (Blue)</li>
-
-			<li data-bind="click: $data.type" value="1800">19th Century (Green)</li>
-
-			<li data-bind="click: $data.type" value="1900">20th Century (Yellow)</li>
-		</ul>
+		</select>
 	</div>
 
+
 	<!-- Site Info Bar -->
-	<div id="siteinfo" class="siteinfo-bar"></div>
+	<div id="siteinfo" class="siteinfo-bar">
+		<h3></h3>
+		<p></p>
+		<span></span>
+	</div>
 
 
 	<!--Empty div for the map-->	
@@ -50,9 +46,9 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		
 		<!--Google Map API-->
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZx4p50k0-P3hJDCdeOwHrgx9eUV_Slso&callback=initialize" async defer></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZx4p50k0-P3hJDCdeOwHrgx9eUV_Slso&callback=init" async defer></script>
 
-		<script src="{% static 'js/navbar.js' %}" language="javascript" type="text/javascript"></script>
+		<!--Javascript-->
 		<script src="{% static 'js/sidenav.js' %}" language="javascript" type="text/javascript"></script>
 		<script src="{% static 'js/model.js' %}" language="javascript" type="text/javascript"></script>
 		<script src="{% static 'js/map.js' %}" language="javascript" type="text/javascript"></script>
