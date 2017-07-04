@@ -18,21 +18,24 @@
 	</head>
 	<body>
 		
-	<div class="nav-container">
-		<!--Filter Century via select drop-down menu-->
-		<div>
-			<select class="select-bar" data-bind="options:century, value:selectedCentury">
+	<div class="wrapper">
+		<div class="nav-container">
+			<!--Filter Century via select drop-down menu-->
+			<div class="dropdown">
+				<select class="selectpicker" data-width="100%" data-bind="options:century, value:selectedCentury">
 
-			</select>
-		</div>
+				</select>
+			</div>
 
-		<!--Location List displaying sites associated with selected century-->
-		<div class="loc-list">
-			<ul id="list">
-				<li></li>
-			</ul>
+			<hr />
+			<!--Location List displaying sites associated with selected century-->
+			<div class="loc-list">
+				<ul id="list" data-bind="foreach:sites">
+					<li data-bind="visible:isVisible, text:name, click:$root.locListClick"></li>
+				</ul>
+			</div>
+
 		</div>
-		
 	</div>
 
 
@@ -63,8 +66,11 @@
 		<script src="{% static 'js/style.js' %}" language="javascript" type="text/javascript"></script>
 		<script src="{% static 'js/map.js' %}" language="javascript" type="text/javascript"></script>
 
-		<!--Latest compiled and minified JavaScript -->
+		<!--Latest compiled and minified JavaScript for Bootstrap -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+		<!-- Latest compiled and minified JavaScript for Bootstrap-Select -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 
 
 	</body>
