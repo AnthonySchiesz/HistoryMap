@@ -1,3 +1,9 @@
+/* Map */
+#map {
+    height: 100%;
+    overflow: hidden;
+}
+
 /* Nav-Container */
 .nav-container {
     position: absolute;
@@ -21,69 +27,49 @@
         -webkit-box-shadow: 1px 2px 6px -2px rgba(74,73,74,1);
 }
 
-/* Century Filter */
-.select-bar {
-    position: absolute;
-    top: 15px;  /* adjust value accordingly */
-    left: 10px;  /* adjust value accordingly */
-    z-index: 1001;
-    width: 300px;
-    height: 48px;
-    margin: 0 auto;
-    padding: 15px;
-    /*border: 0px solid transparent;*/
-    overflow: hidden;
-
-    /* Style */
-    background-color: #d1d1d1 solid;
-    border-radius: 2.5px;
-    /*border-left: 5px solid grey;*/
-    cursor: pointer;
-    outline: none;
-    box-shadow: 0 1px 1px rgba(50,50,50,0.1);
-}
-
-.select-bar select {
-    /*Size and Position*/
-    position: absolute;
-    top: 100%;
-    left: -5px;
-    right: 0px;
-    z-index: 1000;
-    padding-left: 0.0em;
-
-    /*Style*/ 
-    background: white;
-    list-style: none;
-    box-shadow: 0 1px 1px rgba(50,50,50,0.1);
-
-    /* Hiding*/
-    opacity: 0;
-    pointer-events: none;
-}
-.select-bar option {
-    display: block;
+.nav-container .dropdown {
+    height: 45px;
     width: 100%;
-    text-decoration: none;
-    color: #333;
-    border-left: 5px solid;
-    padding: 15px;
-    z-index: 1000;
+
+}
+/* Century Filter */
+.selectpicker {
+ /*styling through bootstrap*/
 }
 
-.select-bar option {
-    margin-right: 5px;
-    color: inherit;
-    vertical-align: middle;
+/*Eliminate the blue highlight when bootstrap btn selected*/
+.bootstrap-select .btn:focus {
+    outline: none !important;
 }
 
-.select-bar option:hover {
-    background-color: #f4f4f4;
+hr {
+    display: block;
+    margin-top: 0.5em;
+    width: 100%;
 }
 
-#map {
-    height: 100%;
-    overflow: hidden;
+/*Location List*/
+.nav-container .loc-list ul {
+    position: relative;
+    height: 72%;
+    width: 100%;
+/*  overflow-y: scroll; *for a list of items that requires a scroll */
+    top: 0;
+    bottom: 0;
+    list-style: none;
+    padding-left: 0.2em;
+}
+
+.loc-list li {
+    /* Positioning */
+    position: relative;
+    display: inline-block;
+    width: 100%;
+
+    /*Style*/
+    line-height: 50px;
+    border-bottom: 1px #eeeeee solid;
+    border-width: 100%;
 }
 
 /* Siteinfo-bar Styles */
@@ -98,6 +84,9 @@
     transition: 0.2s;
     overflow-x: hidden;
     color: #fff;
+    box-shadow: 1px 2px 6px -2px rgba(74,73,74,1);
+    -moz-box-shadow: 1px 2px 6px -2px rgba(74,73,74,1);
+        -webkit-box-shadow: 1px 2px 6px -2px rgba(74,73,74,1);
 }
 .siteinfo-bar h3 {
     position: relative;
