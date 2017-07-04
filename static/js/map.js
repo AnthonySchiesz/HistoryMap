@@ -1,26 +1,50 @@
 //** MVVM **//
 
-//// MODEL ////
+//// Model ////
 var historicalLocation = [
 		{
 			type : "17th Century",
 			name : "Fort Amsterdam",
-			location : {lat: 40.704100, lng: -74.013753},
+			coord : {lat: 40.704100, lng: -74.013753},
 			detail : "First military installation in New York.",
 			link : "https://en.wikipedia.org/wiki/Fort_Amsterdam"
 		},
 		{
 			type : "18th Century",
 			name : "St. Pauls Chapel of Trinity Church",
-			location : {lat: 40.711313, lng: -74.009190},
+			coord : {lat: 40.711313, lng: -74.009190},
 			detail : "The chruch President George Washington celebrated mass after being inagurated.",
 			link : "https://en.wikipedia.org/wiki/St._Paul%27s_Chapel"
+		},
+		{
+			type : "19th Century",
+			name : "Statue of Liberty",
+			coord : {lat: 40.689250, lng: -74.044480},
+			detail : "A statue dedicated to freedom.",
+			link : "https://en.wikipedia.org/wiki/Statue_of_Liberty"
+		},
+		{
+			type : "19th Century",
+			name : "Brooklyn Bridge",
+			coord : {lat: 40.706084, lng: -73.996864},
+			detail : "A bridge connecting New York City with Brooklyn.",
+			link : "https://en.wikipedia.org/wiki/Brooklyn_Bridge"
+		},
+		{
+			type : "19th Century",
+			name : "Manhattan Bridge",
+			coord : {lat: 40.707497, lng: -73.990773},
+			detail : "Another bridge connecting New York City with Brooklyn.",
+			link : "https://en.wikipedia.org/wiki/Manhattan_Bridge"
+		},
+		{
+			type : "20th Century",
+			name : "SS Normandie",
+			coord : {lat: 40.766782, lng: -73.998989},
+			detail : "SS Normandie catches fire and capsizes.",
+			link : "https://en.wikipedia.org/wiki/SS_Normandie"
 		}
-
 ];
-
-
-var customIcon = 'http://maps.google.com/mapfiles/ms/icons/red.png';
 
 //// MAP ////
 //Load map with custom style settings
@@ -34,20 +58,22 @@ function init() {
 		styles: style //custom styling located in the style.js
 	});
 
-	for (i = 0; i < historicalLocation.length; i++) {
+	var customIcon = 'http://maps.google.com/mapfiles/ms/icons/red.png';
+
+	for (var i = 0; i < historicalLocation.length; i++) {
 		var type = historicalLocation[i].type;
 		var name = historicalLocation[i].name;
-		var location = historicalLocation[i].location;
+		var location = historicalLocation[i].coord;
 		var detail = historicalLocation[i].detail;
 		var link = historicalLocation[i].link;
 
 		var marker = new google.maps.Marker({
 			map: map,
-			location: location,
 			type: type,
 			name: name,
-			icon: customIcon,
-			animation: google.maps.Animation.DROP
+			location: location,
+			animation: google.maps.Animation.DROP,
+			icon: customIcon
 		});
 		// to bind to infowindow. Infowindow to display as sidebar.
 		var html = "<div id='siteinfo'>" +   
@@ -56,15 +82,15 @@ function init() {
 			"<p>" + detail + "</p>" +
 			"<a href='" + link + "'>More...</a>" +
 			"</b>" + "</div>";
-//		marker.setVisible(false)
+		// marker.setVisible(false)
 
-	historicalLocation[i].marker = marker;
+		historicalLocation[i].marker = marker;
+
 	}
 	var infoWindow = new google.maps.InfoWindow();
 
 	var siteinfo = 
 		bindInfoWindow(marker, map, infoWindow);
-
 
 	// Attach and display infoWindow when marker clicked. Info window displayed in sidebar.
 	function bindInfoWindow(marker, map, infoWindow, html, link) {
@@ -75,32 +101,52 @@ function init() {
 		});
 	}
 	
-	ko.applyBindings(viewModel);
+	ko.applyBindings(new viewModel());
 };
 
-//// VIEW MODEL ////
+
+//// View ////
+var listView = function(data) {
+	this.type = ko.observable(data.type);
+	this.name = ko.observable(data.name);
+	this.coord = ko.observable(data.coord);
+	this.marker = data.marker;
+	this.isVisible = ko.observable(true);
+};
+
+//// View Model ////
 var viewModel  = function() {
 	var self = this;
 	this.selectedCentury = ko.observable();
-
 	//Century Filter select options
 	this.century = ["Select Century", "17th Century", "18th Century", "19th Century", "20th Century"];
+	//Locations list array
+	this.sites = ko.observableArray([]);
 
+	historicalLocation.forEach(function(locationItem) {
+		self.sites.push(new listView(locationItem));
+	});
 
-	//Century Filter
+	//select-bar filter for map markers and location list.
 	this.filterCentury = ko.computed(function() {
-		for (var i = 0; i < length; i++) {
-
+		var markerGroup = self.sites();
+		for (var i = 0; i < markerGroup.length; i++) {
 			if (self.selectedCentury() === undefined) {
-				selectedCentury.isVisible(false);
+				markerGroup[i].marker.setVisible(true);
+				markerGroup[i].isVisible(true);
 
-			} else if (self.selectedCentury() !== type()) {
-				selectedCentury.setVisible(false);
+			} else if (self.selectedCentury() !== markerGroup[i].type()) {
+				markerGroup[i].marker.setVisible(false);
+				markerGroup[i].isVisible(false);
 
 			} else {
-				// Centuries (type) don't match
-				selectedCentury.setVisible(true);
+				markerGroup[i].marker.setVisible(true);
+				markerGroup[i].isVisible(true);
 			}
 		}
-	})
+	});
+	//click from Location List displays marker on map
+	this.locListClick = function(coord) {
+		google.maps.event.trigger(coord.marker, 'click');
+	};
 };
