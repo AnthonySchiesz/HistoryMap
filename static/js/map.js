@@ -69,9 +69,10 @@ function init() {
 
 		var marker = new google.maps.Marker({
 			map: map,
+			position: location,
 			type: type,
-			name: name,
-			location: location,
+			title: name,
+
 			animation: google.maps.Animation.DROP,
 			icon: customIcon
 		});
@@ -90,15 +91,30 @@ function init() {
 	var infoWindow = new google.maps.InfoWindow();
 
 	var siteinfo = 
-		bindInfoWindow(marker, map, infoWindow);
+		bindInfoWindow(marker, map, html, link);
+
+	// Pan to marker on Location List item click
+	marker.addListener('click', function() {
+		map.setZoom(13);
+		map.setCenter(marker.getPosition());
+		siteinfo.open(map, marker);
+	});
+
+
+//google.maps.event.addListener(marker, 'click', function () {
+//	// where I have added .html to the marker object.
+//	infowindow.setContent(this.html);
+//	infowindow.open(map, this);
+//})(wikiInfo(marker, siteinfo));
 
 	// Attach and display infoWindow when marker clicked. Info window displayed in sidebar.
-	function bindInfoWindow(marker, map, infoWindow, html, link) {
+	function bindInfoWindow(marker, map, html, link) {
 		// display site details in siteInfo bar
 		google.maps.event.addListener(marker, 'click', function() {
 			document.getElementById('siteinfo').innerHTML = html + "</br><span><a href='javascript:void(null)' onclick='closeInfo()'>Close</a></span></br>";
-			document.getElementById('siteinfo').style.width = "255px";
+			document.getElementById('siteinfo').style.width = "335px";
 		});
+		wikiInfo(marker, siteinfo)
 	}
 	
 	ko.applyBindings(new viewModel());
@@ -134,11 +150,9 @@ var viewModel  = function() {
 			if (self.selectedCentury() === undefined) {
 				markerGroup[i].marker.setVisible(true);
 				markerGroup[i].isVisible(true);
-
 			} else if (self.selectedCentury() !== markerGroup[i].type()) {
 				markerGroup[i].marker.setVisible(false);
 				markerGroup[i].isVisible(false);
-
 			} else {
 				markerGroup[i].marker.setVisible(true);
 				markerGroup[i].isVisible(true);
@@ -150,3 +164,37 @@ var viewModel  = function() {
 		google.maps.event.trigger(coord.marker, 'click');
 	};
 };
+
+//// WIKIPEDIA ////
+// **WORK IN PROGRESS** //
+// inspired by 9bitsolutions.com
+function wikiInfo(marker, siteinfo) {
+	$(document).ready(function(){
+
+		$.ajax({
+			type: "GET",
+			url: "http://en.wikipedia.org/",
+			contentType: "application/json; charset=utf-8",
+			async: false,
+			dataType: "json",
+			success: function (data, textStatus, jqXHR) {
+
+				var markup = data.parse.text["*"];
+				var blurb = $('<div></div>').html(markup);
+
+				// remove links as they will not work
+				blurb.find('a').each(function() { $(this).replaceWith($(this).html()); });
+
+				// remove any references
+				blurb.find('sup').remove();
+
+				// remove cite error
+				blurb.find('.mw-ext-cite-error').remove();
+				$('#article').html($(blurb).find('p'));
+
+			},
+			error: function (errorMessage) {
+			}
+		});
+	});
+}
