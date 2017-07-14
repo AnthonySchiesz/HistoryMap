@@ -18,7 +18,7 @@
 	</head>
 	<body>
 		
-	<div class="wrapper">
+		<div class="wrapper">
 		<div class="nav-container">
 			<!--Filter Century via select drop-down menu-->
 			<div class="dropdown">
@@ -40,11 +40,7 @@
 
 
 	<!-- Site Info Bar -->
-	<div id="siteinfo" class="siteinfo-bar">
-		<h3></h3>
-		<p></p>
-		<span></span>
-	</div>
+	<div id="siteinfo" class="siteinfo-bar"></div>
 
 
 	<!--Empty div for the map-->	
@@ -54,6 +50,10 @@
 
 		<!--Knockout.js-->
 		<script src="{% static 'js/knockout.js' %}" type='text/javascript'></script>
+
+		<!-- Latest jQuery minified CDN -->
+<!--		<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+-->
 
 		<!--jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -65,6 +65,9 @@
 		<script src="{% static 'js/sidenav.js' %}" language="javascript" type="text/javascript"></script>
 		<script src="{% static 'js/style.js' %}" language="javascript" type="text/javascript"></script>
 		<script src="{% static 'js/map.js' %}" language="javascript" type="text/javascript"></script>
+
+		<!--9bitStudios wikiblurb jQuery Plugin for Wikipedia and Other Wikis-->
+		<script src="{% static 'js/jquery.wikiblurb.js' %}" language="javascript" type="text/javascript"></script>
 
 		<!--Latest compiled and minified JavaScript for Bootstrap -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
