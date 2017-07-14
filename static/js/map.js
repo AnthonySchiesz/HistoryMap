@@ -6,42 +6,48 @@ var historicalLocation = [
 			type : "17th Century",
 			name : "Fort Amsterdam",
 			coord : {lat: 40.704100, lng: -74.013753},
-			detail : "First military installation in New York.",
+			pageid : "https://en.wikipedia.org/wiki/Fort_Amsterdam/",
+			page : "Fort_Amsterdam",
 			link : "https://en.wikipedia.org/wiki/Fort_Amsterdam"
 		},
 		{
 			type : "18th Century",
 			name : "St. Pauls Chapel of Trinity Church",
 			coord : {lat: 40.711313, lng: -74.009190},
-			detail : "The chruch President George Washington celebrated mass after being inagurated.",
+			pageid : "https://en.wikipedia.org/wiki/St._Paul%27s_Chapel/",
+			page : "St._Paul%27s_Chapel",
 			link : "https://en.wikipedia.org/wiki/St._Paul%27s_Chapel"
 		},
 		{
 			type : "19th Century",
 			name : "Statue of Liberty",
 			coord : {lat: 40.689250, lng: -74.044480},
-			detail : "A statue dedicated to freedom.",
+			pageid : "https://en.wikipedia.org/wiki/Statue_of_Liberty",
+			page : "Statue_of_Liberty",
 			link : "https://en.wikipedia.org/wiki/Statue_of_Liberty"
 		},
 		{
 			type : "19th Century",
 			name : "Brooklyn Bridge",
 			coord : {lat: 40.706084, lng: -73.996864},
-			detail : "A bridge connecting New York City with Brooklyn.",
+			pageid : "https://en.wikipedia.org/wiki/Brooklyn_Bridge",
+			page : "Brooklyn_Bridge",
 			link : "https://en.wikipedia.org/wiki/Brooklyn_Bridge"
 		},
 		{
 			type : "19th Century",
 			name : "Manhattan Bridge",
 			coord : {lat: 40.707497, lng: -73.990773},
-			detail : "Another bridge connecting New York City with Brooklyn.",
+			pageid : "https://en.wikipedia.org/wiki/Manhattan_Bridge",
+			page : "Manhattan_Bridge",
 			link : "https://en.wikipedia.org/wiki/Manhattan_Bridge"
 		},
 		{
 			type : "20th Century",
 			name : "SS Normandie",
 			coord : {lat: 40.766782, lng: -73.998989},
-			detail : "SS Normandie catches fire and capsizes.",
+			pageid : "https://en.wikipedia.org/wiki/SS_Normandie",
+			page : "SS_Normandie",
 			link : "https://en.wikipedia.org/wiki/SS_Normandie"
 		}
 ];
@@ -64,7 +70,8 @@ function init() {
 		var type = historicalLocation[i].type;
 		var name = historicalLocation[i].name;
 		var location = historicalLocation[i].coord;
-		var detail = historicalLocation[i].detail;
+		var pageid = historicalLocation[i].pageid;
+		var page = historicalLocation[i].page;
 		var link = historicalLocation[i].link;
 
 		var marker = new google.maps.Marker({
@@ -78,46 +85,62 @@ function init() {
 		});
 		// to bind to infowindow. Infowindow to display as sidebar.
 		var html = "<div id='siteinfo'>" +   
-			"<h3>" + name + "</h3>" + 
-			"</b>" +
-			"<p>" + detail + "</p>" +
-			"<a href='" + link + "'>More...</a>" +
-			"</b>" + "</div>";
+			"<h4>" + name + "</h4>";
+
+		var path = "<div id='siteinfo'>" + "<a href='" + link + "'>More...</a>" + "</div>";
 		// marker.setVisible(false)
 
 		historicalLocation[i].marker = marker;
-
 	}
 	var infoWindow = new google.maps.InfoWindow();
+//	var siteinfo = 
+//		bindInfoWindow(marker, map, infoWindow, html);
 
-	var siteinfo = 
-		bindInfoWindow(marker, map, html, link);
+	//// WIKIPEDIA ////
+	// **WORK IN PROGRESS** //
 
-	// Pan to marker on Location List item click
-	marker.addListener('click', function() {
-		map.setZoom(13);
-		map.setCenter(marker.getPosition());
-		siteinfo.open(map, marker);
+	$(document).ready(function () {
+		$('#list').click(function () {
+			$('#siteinfo').empty();
+			$.ajax({
+				url: 'http://www.mediawiki.org/w/api.php',
+				dataType: 'jsonp',
+				data: {
+					action: 'query',
+					format: 'json',
+					generator: 'random',
+					prop: 'extracts',
+					grnnamespace: 0,
+					explaintext: true
+				},
+				success: function (result) {
+					var pages = result.query.pages;
+					var page = pages[Object.keys(pages)[0]];
+					$('#siteinfo').append($('<h3>').text(page.title));
+					$('#siteinfo').append($('<p>').text(page.extract));
+				}
+			});
+		});
 	});
 
 
-//google.maps.event.addListener(marker, 'click', function () {
-//	// where I have added .html to the marker object.
-//	infowindow.setContent(this.html);
-//	infowindow.open(map, this);
-//})(wikiInfo(marker, siteinfo));
 
 	// Attach and display infoWindow when marker clicked. Info window displayed in sidebar.
-	function bindInfoWindow(marker, map, html, link) {
+//	function bindInfoWindow(marker, map, infoWindow, html, link) {
 		// display site details in siteInfo bar
-		google.maps.event.addListener(marker, 'click', function() {
-			document.getElementById('siteinfo').innerHTML = html + "</br><span><a href='javascript:void(null)' onclick='closeInfo()'>Close</a></span></br>";
-			document.getElementById('siteinfo').style.width = "335px";
-		});
-		wikiInfo(marker, siteinfo)
-	}
+//		google.maps.event.addListener(marker, 'click', function() {
+			// Pan to marker on Location List item click
+//			map.setZoom(13);
+//			map.setCenter(marker.getPosition());
+			// Format infoWindow through sidebar.
+//			document.getElementById('siteinfo').innerHTML = html + "<p>" + page + "</p>" + path + 
+//			"</br><span><a href='javascript:void(null)' onclick='closeInfo()'>Close</a></span></br>";
+//			document.getElementById('siteinfo').style.width = "335px";
+//		});
+		//wikiInfo(marker, siteinfo)
+//	}
 	
-	ko.applyBindings(new viewModel());
+//	ko.applyBindings(new viewModel());
 };
 
 
@@ -145,17 +168,17 @@ var viewModel  = function() {
 
 	//select-bar filter for map markers and location list.
 	this.filterCentury = ko.computed(function() {
-		var markerGroup = self.sites();
-		for (var i = 0; i < markerGroup.length; i++) {
+		var historicalLocation = self.sites();
+		for (var i = 0; i < historicalLocation.length; i++) {
 			if (self.selectedCentury() === undefined) {
-				markerGroup[i].marker.setVisible(true);
-				markerGroup[i].isVisible(true);
-			} else if (self.selectedCentury() !== markerGroup[i].type()) {
-				markerGroup[i].marker.setVisible(false);
-				markerGroup[i].isVisible(false);
+				historicalLocation[i].marker.setVisible(true);
+				historicalLocation[i].isVisible(true);
+			} else if (self.selectedCentury() !== historicalLocation[i].type()) {
+				historicalLocation[i].marker.setVisible(false);
+				historicalLocation[i].isVisible(false);
 			} else {
-				markerGroup[i].marker.setVisible(true);
-				markerGroup[i].isVisible(true);
+				historicalLocation[i].marker.setVisible(true);
+				historicalLocation[i].isVisible(true);
 			}
 		}
 	});
@@ -164,37 +187,3 @@ var viewModel  = function() {
 		google.maps.event.trigger(coord.marker, 'click');
 	};
 };
-
-//// WIKIPEDIA ////
-// **WORK IN PROGRESS** //
-// inspired by 9bitsolutions.com
-function wikiInfo(marker, siteinfo) {
-	$(document).ready(function(){
-
-		$.ajax({
-			type: "GET",
-			url: "http://en.wikipedia.org/",
-			contentType: "application/json; charset=utf-8",
-			async: false,
-			dataType: "json",
-			success: function (data, textStatus, jqXHR) {
-
-				var markup = data.parse.text["*"];
-				var blurb = $('<div></div>').html(markup);
-
-				// remove links as they will not work
-				blurb.find('a').each(function() { $(this).replaceWith($(this).html()); });
-
-				// remove any references
-				blurb.find('sup').remove();
-
-				// remove cite error
-				blurb.find('.mw-ext-cite-error').remove();
-				$('#article').html($(blurb).find('p'));
-
-			},
-			error: function (errorMessage) {
-			}
-		});
-	});
-}
