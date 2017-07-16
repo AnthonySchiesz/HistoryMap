@@ -18,7 +18,7 @@
 	</head>
 	<body>
 		
-		<div class="wrapper">
+	<div class="wrapper">
 		<div class="nav-container">
 			<!--Filter Century via select drop-down menu-->
 			<div class="dropdown">
@@ -40,7 +40,12 @@
 
 
 	<!-- Site Info Bar -->
-	<div id="siteinfo" class="siteinfo-bar"></div>
+	<div class="siteinfo-bar" id="bar">
+		<i class="fa fa-times" aria-hidden="true" onclick="closeInfo()"></i>		
+			<div class="content" id="siteinfo"></div>
+		<span><a href="{historicalLocation[i].link}">Source</a></span>
+	<!--	<span><a href='javascript:void(null)' onclick='closeInfo()'>Close</a></span>	-->
+	</div>
 
 
 	<!--Empty div for the map-->	
@@ -67,7 +72,7 @@
 		<script src="{% static 'js/map.js' %}" language="javascript" type="text/javascript"></script>
 
 		<!--9bitStudios wikiblurb jQuery Plugin for Wikipedia and Other Wikis-->
-		<script src="{% static 'js/jquery.wikiblurb.js' %}" language="javascript" type="text/javascript"></script>
+<!--		<script src="{% static 'js/jquery.wikiblurb.js' %}" language="javascript" type="text/javascript"></script>		-->
 
 		<!--Latest compiled and minified JavaScript for Bootstrap -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
