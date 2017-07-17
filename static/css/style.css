@@ -133,7 +133,9 @@ hr {
     position: relative;
     margin: 0;
     font-family: 'Roboto', sans-serif;
-    font-weight: normal;
+    font-weight: bold;
+    font-style: italic;
+    color: #4f4f4f;
     padding: 10px 15px 10 20px;
     line-height: 24px;
     display: inline-block;
