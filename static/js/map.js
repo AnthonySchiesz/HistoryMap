@@ -1,6 +1,7 @@
 //** MVVM **//
 
 //// Model ////
+// Data needed to place markers on the map and parsing wikipedia data to infoWindow sidebar.
 var historicalLocation = [
 		{
 			type : "17th Century",
@@ -52,19 +53,19 @@ var historicalLocation = [
 		},
 		{
 			type : "20th Century",
-			name : "SS Normandie",
-			coord : {lat: 40.766782, lng: -73.998989},
-			event : "At 14:30 on February 9, 1942, the SS Normandie catches fire as sparks from a welding torch ignited a stack of life vests filled with flammable kapok that had been stored in the first-class lounge. The ship had a very efficient fire protection system, but it had been disconnected during its conversion. Fire spread to 3 upper decks within an hour and the Normandie began to list as firefighters on shore and in fire boats poured water on the blaze. The Normandie capsized on 10 February 1942. One man died in the tragedy — Frank 'Trent' Trentacosta, 36, of Brooklyn. 38 fire fighters and 153 civilians were treated for various injuries, burns, smoke inhalation, and exposure.",
-			page : "SS_Normandie",
-			link : "https://en.wikipedia.org/wiki/SS_Normandie"
-		}
-		{
-			type : "20th Century",
-			name : "Wall Street bombing",
-			coord : {lat: 40.766782, lng: -73.998989},
-			event : "At 14:30 on February 9, 1942, the SS Normandie catches fire as sparks from a welding torch ignited a stack of life vests filled with flammable kapok that had been stored in the first-class lounge. The ship had a very efficient fire protection system, but it had been disconnected during its conversion. Fire spread to 3 upper decks within an hour and the Normandie began to list as firefighters on shore and in fire boats poured water on the blaze. The Normandie capsized on 10 February 1942. One man died in the tragedy — Frank 'Trent' Trentacosta, 36, of Brooklyn. 38 fire fighters and 153 civilians were treated for various injuries, burns, smoke inhalation, and exposure.",
+			name : "Wall Street Bombing",
+			coord : {lat: 40.706847, lng: -74.010301},
+			event : "At 12:01 pm on September 16, 1920 a horse-drawn wagon passed by lunchtime crowds on Wall Street and stopped across the street from the headquarters of the J.P. Morgan bank at 23 Wall Street, on the Financial District's busiest corner. Inside the wagon, 100 pounds (45 kg) of dynamite with 500 pounds (230 kg) of heavy, cast-iron sash weights exploded in a timer-set detonation, sending the weights tearing through the air. The horse and wagon were blasted into small fragments, but the driver was believed to have left the vehicle and escaped. The 38 fatalities, most of whom died within moments of the blast, were mostly young people who worked as messengers, stenographers, clerks, and brokers. Remnants of the damage from the 1920 bombing are still visible on 23 Wall Street.",
 			page : "Wall_Street_bombing",
 			link : "https://en.wikipedia.org/wiki/Wall_Street_bombing"
+		},
+		{
+			type : "20th Century",
+			name : "SS Normandie",
+			coord : {lat: 40.766782, lng: -73.998989},
+			event : "At 2:30 pm on February 9, 1942, the SS Normandie catches fire as sparks from a welding torch ignited a stack of life vests filled with flammable kapok that had been stored in the first-class lounge. The ship had a very efficient fire protection system, but it had been disconnected during its conversion. Fire spread to 3 upper decks within an hour and the Normandie began to list as firefighters on shore and in fire boats poured water on the blaze. The Normandie capsized on 10 February 1942. One man died in the tragedy — Frank 'Trent' Trentacosta, 36, of Brooklyn. 38 fire fighters and 153 civilians were treated for various injuries, burns, smoke inhalation, and exposure.",
+			page : "SS_Normandie",
+			link : "https://en.wikipedia.org/wiki/SS_Normandie"
 		}
 ];
 
@@ -80,7 +81,12 @@ function init() {
 		styles: style //custom styling located in the style.js
 	});
 
-	var customIcon = 'http://maps.google.com/mapfiles/ms/icons/red.png';
+	//var marker;
+	var activeMarker;
+	var defaultIcon = 'http://maps.google.com/mapfiles/ms/icons/red.png';
+	var selectedIcon = 'http://maps.google.com/mapfiles/ms/icons/blue.png';
+
+	var infoWindow = bindInfoWindow(map, marker, infoWindow);
 
 	for (var i = 0; i < historicalLocation.length; i++) {
 		var type = historicalLocation[i].type;
@@ -97,55 +103,39 @@ function init() {
 			title: name,
 
 			animation: google.maps.Animation.DROP,
-			icon: customIcon
+			icon: defaultIcon
 		});
-
-
-		// marker.setVisible(false)
 
 		historicalLocation[i].marker = marker;
+
+		marker.addListener('click', (function(marker, i) {
+			return function() {
+				// Open site info and wikipedia data from bindinfoWindow function.
+				bindInfoWindow(marker, infoWindow);
+				// Format and open infoWindow via sidebar.
+				document.getElementById('bar').style.width = "335px";
+				// Pan to marker on Location List item click
+				map.panTo(marker.getPosition());
+				map.setZoom(13);
+				// check to see if activeMarker is set
+				// if so, set the icon back to the default
+				activeMarker && activeMarker.setIcon(defaultIcon);
+				// set the icon for the clicked marker
+				marker.setIcon(selectedIcon);
+				// update the value (color) of activeMarker
+				activeMarker = marker;
+			}
+		})(marker, i));
 	}
-	var infoWindow = bindInfoWindow(marker, map, infoWindow);
 
 	// Attach and display infoWindow when marker clicked. Info window displayed in sidebar.
-	function bindInfoWindow(marker, map, infoWindow, html, link) {
-		// display site details in siteInfo bar
-		google.maps.event.addListener(marker, 'click', function() {
-			// Pan to marker on Location List item click
-			map.setZoom(13);
-			map.setCenter(marker.getPosition());
-			// Format infoWindow through sidebar.
-			document.getElementById('bar').style.width = "335px";
-		
-			//// WIKIPEDIA API////
-			// **WORK IN PROGRESS** //
-			$(document).ready(function(historicalLocation) {
-				$('#siteinfo').empty();
-				$.ajax({
-					url: 'http://en.wikipedia.org/w/api.php',
-					dataType: 'jsonp',
-					data: {
-						action: 'query',
-						format: 'json',
-						titles: page,
-						prop: 'extracts',
-						exintro: 0,
-						grnnamespace: 0,
-						explaintext: true
-					},
-					success: function(result) {
-						var pages = result.query.pages;
-						var page = pages[Object.keys(pages)[0]];
-					//	$('#siteinfo').append($('<h4>').text(page.title));
-						$('#siteinfo').append($('<p>').text(page.extract));
-					}
+	// THIS IS AN ATTEMPT TO KEEP THE INFOWINDOW FUNCTION SEPERATE FROM INIT (still not working). Inspired by other projects found on git and stacko.
+	function bindInfoWindow(marker, infoWindow) {
+		if (infoWindow != marker) {
+			infoWindow = marker;
 
-				});
-			});
-			var result = "";
-			document.getElementById('siteinfo').innerHTML = "<h3>Event</h3>" + "<p>" + event + "</p>" + 
-			"<h3>Setting</h3>" + result;
-		});
+			wikiData(marker, infoWindow);
+		}
 	}
 
 	ko.applyBindings(new viewModel());
@@ -162,7 +152,7 @@ var listView = function(data) {
 };
 
 //// View Model ////
-var viewModel  = function() {
+var viewModel = function() {
 	var self = this;
 	this.selectedCentury = ko.observable();
 	//Century Filter select options
@@ -174,24 +164,53 @@ var viewModel  = function() {
 		self.sites.push(new listView(locationItem));
 	});
 
-	//select-bar filter for map markers and location list.
+	//Displays list of sites and markers on map associated with Century selected in dropdown.
 	this.filterCentury = ko.computed(function() {
 		var historicalLocation = self.sites();
 		for (var i = 0; i < historicalLocation.length; i++) {
 			if (self.selectedCentury() === undefined) {
-				historicalLocation[i].marker.setVisible(true);
 				historicalLocation[i].isVisible(true);
+				historicalLocation[i].marker.setVisible(true);
 			} else if (self.selectedCentury() !== historicalLocation[i].type()) {
-				historicalLocation[i].marker.setVisible(false);
 				historicalLocation[i].isVisible(false);
+				historicalLocation[i].marker.setVisible(false);
 			} else {
-				historicalLocation[i].marker.setVisible(true);
 				historicalLocation[i].isVisible(true);
+				historicalLocation[i].marker.setVisible(true);
 			}
 		}
 	});
 	//click from Location List displays marker on map
 	this.locListClick = function(coord) {
-		google.maps.event.trigger(coord.marker, 'click');
+	google.maps.event.trigger(coord.marker, 'click');
 	};
+};
+
+function wikiData(marker, infoWindow) {
+	//// WIKIPEDIA API ////
+	$(document).ready(function() {
+		$('#siteinfo').click(function() {
+			$.ajax({
+				url: 'http://en.wikipedia.org/w/api.php',
+				dataType: 'jsonp',
+				data: {
+					action: 'query',
+					format: 'json',
+					titles: page,
+					prop: 'extracts',
+					exintro: 0,
+					grnnamespace: 0,
+					explaintext: true
+				},
+				success: function(result) {
+					var pages = result.query.pages;
+					var page = pages[Object.keys(pages)[0]];
+					//$('#siteinfo').append($('<h4>').text(page.title));
+					$('#siteinfo').append($('<p>').text(page.extract));
+				}
+			});
+			var result = "";
+			document.getElementById('siteinfo').innerHTML = "<h3>Event</h3>" + "<p>" + event + "</p>" + "<h3>Setting</h3>" + result;
+		});
+	});
 };
