@@ -130,14 +130,14 @@ function init() {
 		})(marker, i))
 	}
 
-	function bindInfoWindow(marker, infoWindow) {
+	function bindInfoWindow(marker, infowindow) {
 		// Verify is marker is already active and displaying it's correspoinding wikiData.
 		if (infowindow.marker != marker) {
 
 				infowindow.marker = marker;
 
 			// Ajax request to grab Wikipedia data and fill in the infoWindow (Site Info Bar).
-			getWikiData(marker, infoWindow)
+			getWikiData(marker, infowindow)
 		}
 		document.getElementById('bar').style.width = "335px";
 		var result = marker.result;
@@ -192,7 +192,7 @@ var viewModel = function() {
 	};
 };
 
-function getWikiData(marker, infoWindow) {
+function getWikiData(marker, infowindow) {
 	//// WIKIPEDIA API ////
 	$(document).ready(function() {
 		$('#siteinfo').click(function() {
