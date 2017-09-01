@@ -70,7 +70,7 @@ var historicalLocation = [
 ];
 
 //// MAP ////
-//Load map with custom style settings
+// Load map with custom style settings
 function init() {
 	var map = new google.maps.Map(document.getElementById("map"), {
 		center: new google.maps.LatLng(40.7126168, -74.0058063),
@@ -78,15 +78,17 @@ function init() {
 		zoomControl: true,
 		disableDefaultUI: true,
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
-		styles: style //custom styling located in the style.js
+		// Custom styling located in the style.js
+		styles: style
 	});
 
-	//var marker;
+	// Custom markers for historical location, marker hover and marker click/active.
 	var activeMarker;
 	var defaultIcon = 'http://maps.google.com/mapfiles/ms/icons/red.png';
 	var selectedIcon = 'http://maps.google.com/mapfiles/ms/icons/blue.png';
 
-	var infoWindow = bindInfoWindow(map, marker, infoWindow);
+	//var infoWindow = bindInfoWindow(marker, infoWindow);
+	var infowindow = new google.maps.InfoWindow();
 
 	for (var i = 0; i < historicalLocation.length; i++) {
 		var type = historicalLocation[i].type;
@@ -96,27 +98,27 @@ function init() {
 		var page = historicalLocation[i].page;
 		var link = historicalLocation[i].link;
 
+		// What defines an individual marker.
 		var marker = new google.maps.Marker({
 			map: map,
 			position: location,
 			type: type,
 			title: name,
-
+			// Marker only drops in when corresponding century is selected.
 			animation: google.maps.Animation.DROP,
 			icon: defaultIcon
 		});
 
+		// Make each marker a property of its corresponding historicalLocation.
 		historicalLocation[i].marker = marker;
 
-		marker.addListener('click', (function(marker, i) {
-			return function() {
-				// Open site info and wikipedia data from bindinfoWindow function.
-				bindInfoWindow(marker, infoWindow);
-				// Format and open infoWindow via sidebar.
-				document.getElementById('bar').style.width = "335px";
-				// Pan to marker on Location List item click
+		marker.addListener("click", (function(marker, i) {
+			return function () {
+				bindInfoWindow(this, infowindow);
+				// Open Sidebar that will containt some of the marker data and Wikipedia data.
+				//document.getElementById('bar').style.width = "335px";
+				// Re-center map to site of marker or list item.
 				map.panTo(marker.getPosition());
-				map.setZoom(13);
 				// check to see if activeMarker is set
 				// if so, set the icon back to the default
 				activeMarker && activeMarker.setIcon(defaultIcon);
@@ -125,19 +127,23 @@ function init() {
 				// update the value (color) of activeMarker
 				activeMarker = marker;
 			}
-		})(marker, i));
+		})(marker, i))
 	}
 
-	// Attach and display infoWindow when marker clicked. Info window displayed in sidebar.
-	// THIS IS AN ATTEMPT TO KEEP THE INFOWINDOW FUNCTION SEPERATE FROM INIT (still not working). Inspired by other projects found on git and stacko.
 	function bindInfoWindow(marker, infoWindow) {
-		if (infoWindow != marker) {
-			infoWindow = marker;
+		// Verify is marker is already active and displaying it's correspoinding wikiData.
+		if (infowindow.marker != marker) {
 
-			wikiData(marker, infoWindow);
+				infowindow.marker = marker;
+
+			// Ajax request to grab Wikipedia data and fill in the infoWindow (Site Info Bar).
+			getWikiData(marker, infoWindow)
 		}
+		document.getElementById('bar').style.width = "335px";
+		var result = marker.data;
+		document.getElementById('siteinfo').innerHTML = "<h3>Event</h3>" + "<p>" + event + "</p>" + "<h3>Setting</h3>" + "<p>" + result + "</p>";
 	}
-
+	// Apply Knockout.js bindings so that markers are created first.
 	ko.applyBindings(new viewModel());
 };
 
@@ -155,38 +161,38 @@ var listView = function(data) {
 var viewModel = function() {
 	var self = this;
 	this.selectedCentury = ko.observable();
-	//Century Filter select options
+	// Century Filter select options
 	this.century = ["Select Century", "17th Century", "18th Century", "19th Century", "20th Century"];
-	//Locations list array
+	// Locations list array
 	this.sites = ko.observableArray([]);
 
 	historicalLocation.forEach(function(locationItem) {
 		self.sites.push(new listView(locationItem));
 	});
 
-	//Displays list of sites and markers on map associated with Century selected in dropdown.
+	// Displays list of sites and markers on map associated with Century selected in dropdown.
 	this.filterCentury = ko.computed(function() {
-		var historicalLocation = self.sites();
-		for (var i = 0; i < historicalLocation.length; i++) {
+		var historicalMarker = self.sites();
+		for (var i = 0; i < historicalMarker.length; i++) {
 			if (self.selectedCentury() === undefined) {
-				historicalLocation[i].isVisible(true);
-				historicalLocation[i].marker.setVisible(true);
-			} else if (self.selectedCentury() !== historicalLocation[i].type()) {
-				historicalLocation[i].isVisible(false);
-				historicalLocation[i].marker.setVisible(false);
+				historicalMarker[i].isVisible(true);
+				historicalMarker[i].marker.setVisible(true);
+			} else if (self.selectedCentury() !== historicalMarker[i].type()) {
+				historicalMarker[i].isVisible(false);
+				historicalMarker[i].marker.setVisible(false);
 			} else {
-				historicalLocation[i].isVisible(true);
-				historicalLocation[i].marker.setVisible(true);
+				historicalMarker[i].isVisible(true);
+				historicalMarker[i].marker.setVisible(true);
 			}
 		}
 	});
-	//click from Location List displays marker on map
+	// Click from Location List displays marker on map
 	this.locListClick = function(coord) {
 	google.maps.event.trigger(coord.marker, 'click');
 	};
 };
 
-function wikiData(marker, infoWindow) {
+function getWikiData(marker, infoWindow) {
 	//// WIKIPEDIA API ////
 	$(document).ready(function() {
 		$('#siteinfo').click(function() {
@@ -208,9 +214,9 @@ function wikiData(marker, infoWindow) {
 					//$('#siteinfo').append($('<h4>').text(page.title));
 					$('#siteinfo').append($('<p>').text(page.extract));
 				}
+				//error: function(errorMessage) {
+				//}
 			});
-			var result = "";
-			document.getElementById('siteinfo').innerHTML = "<h3>Event</h3>" + "<p>" + event + "</p>" + "<h3>Setting</h3>" + result;
 		});
 	});
 };
