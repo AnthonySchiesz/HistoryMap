@@ -140,7 +140,7 @@ function init() {
 			getWikiData(marker, infoWindow)
 		}
 		document.getElementById('bar').style.width = "335px";
-		var result = marker.data;
+		var result = marker.result;
 		document.getElementById('siteinfo').innerHTML = "<h3>Event</h3>" + "<p>" + event + "</p>" + "<h3>Setting</h3>" + "<p>" + result + "</p>";
 	}
 	// Apply Knockout.js bindings so that markers are created first.
