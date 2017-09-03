@@ -104,6 +104,7 @@ function init() {
 			position: location,
 			type: type,
 			title: name,
+			event: event,
 			// Marker only drops in when corresponding century is selected.
 			animation: google.maps.Animation.DROP,
 			icon: defaultIcon
@@ -141,7 +142,7 @@ function init() {
 		}
 		document.getElementById('bar').style.width = "335px";
 		var result = marker.result;
-		document.getElementById('siteinfo').innerHTML = "<h3>Event</h3>" + "<p>" + event + "</p>" + "<h3>Setting</h3>" + "<p>" + result + "</p>";
+		document.getElementById('siteinfo').innerHTML = "<h3>Event</h3>" + "<p>" + marker.event + "</p>" + "<h3>Setting</h3>" + "<p>" + result + "</p>";
 	}
 	// Apply Knockout.js bindings so that markers are created first.
 	ko.applyBindings(new viewModel());
