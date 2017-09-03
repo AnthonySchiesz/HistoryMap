@@ -6,7 +6,7 @@ HistoryMap is an interactive neighborhood map of New York City. By selecting a c
 
 ## Installation
 1. Download project repo
-2. Launch index.html in your browser of choice or see the live version <a href="http://en.wikipedia.org/wiki/Petersen_graph">here</a>
+2. Launch index.html in your browser of choice or see the live version <a href="http://historymap.github.io">here</a>
 
 ## Stack Utilized
 1. Javascript
