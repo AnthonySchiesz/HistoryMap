@@ -134,18 +134,19 @@ hr {
     margin: 0;
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
-    font-style: italic;
-    color: #4f4f4f;
-    padding: 10px 15px 10 20px;
+    padding: 5px 15px 5px 20px;
     line-height: 24px;
     display: inline-block;
     width: 100%;
 }
-.content h5 {
+.content h4 {
     position: relative;
+    margin: 0;
     font-family: 'Roboto', sans-serif;
-    font-weight: normal;
-    padding: 20px 15px 20px 20px;
+    font-weight: bold;
+    font-style: italic;
+    color: #4f4f4f;
+    padding: 10px 15px 5px 20px;
     line-height: 24px;
     display: inline-block;
     width: 100%;
@@ -155,7 +156,7 @@ hr {
     font-family: 'Roboto', sans-serif;
     font-weight: normal;
     line-height: 20px;
-    padding: 10px 15px 5px 20px;
+    padding: 5px 15px 5px 20px;
     display: inline-block;
     width: 100%;
 }
