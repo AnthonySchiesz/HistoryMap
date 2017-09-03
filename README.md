@@ -17,7 +17,7 @@ HistoryMap is an interactive neighborhood map of New York City. By selecting a c
 ## API's
 1. Google Maps API
 2. Wikipedia
-####Technically, there is no API for Wikipedia, however, data was pulled using paramaters designed by Wikipedia engineers for this purpose.
+###Technically, there is no API for Wikipedia, however, data was pulled using paramaters designed by Wikipedia engineers for this purpose.
 
 ### Recognition
 Much research was done on Stack Overflow and other various blogs. 
