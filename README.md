@@ -2,11 +2,11 @@ Fresh Tomatoes Movie Trailer Website
 ====================================
 #### Udacity Neighborhood Map Project
 
-Fresh Tomatoes is a movie trailer website where movie trailers and posters are available for entertainment.
+History Map is an interactive neighborhood map of New York City. By selecting a century, the user can explore events that took place at a specific location.
 
-## Prerequisite
-1. Download Python
-https://www.python.org/downloads/
+## Installation
+1. Download project repo
+2. Launch index.html in your browser of choice or see the live version here
 
 ## Quickstart
 
