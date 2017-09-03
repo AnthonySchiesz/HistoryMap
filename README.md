@@ -1,4 +1,4 @@
-HistotyMap
+HistoryMap
 ====================================
 #### Udacity Neighborhood Map Project
 
