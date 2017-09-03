@@ -6,7 +6,7 @@ HistoryMap is an interactive neighborhood map of New York City. By selecting a c
 
 ## Installation
 1. Download project repo
-2. Launch index.html in your browser of choice or see the live version <a href="http://anthonyschiesz.github.io-historymap/">here</a>
+2. Launch index.html in your browser of choice or see the live version <a href="https://anthonyschiesz.github.io/historymap/">here</a>
 
 ## Stack Utilized
 1. Javascript
