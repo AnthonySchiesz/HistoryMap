@@ -11,6 +11,8 @@ Note: Python 3 must be installed.
 3. Type "python manage.py runserver". Then press Enter.
 4. Copy and Paste http://127.0.0.1:8000/ to your broswer and press Enter.
 
+**Reviewer: see the live version <a href="http://en.wikipedia.org/wiki/Petersen_graph">here</a>
+
 ## Stack Utilized
 1. Javascript
 2. AJAX
