@@ -13,19 +13,19 @@ var historicalLocation = [
 		},
 		{
 			type : "18th Century",
-			name : "St. Pauls Chapel of Trinity Church",
-			coord : {lat: 40.711313, lng: -74.009190},
-			event : "A chapel of the Parish of Trinity Church, St. Paul's was built on land granted by Anne, Queen of Great Britain, designed by architect Thomas McBean and built by master craftsman Andrew Gautier. Upon completion in 1766, it was the tallest building in New York City. It stood in a field some distance from the growing port city to the south and was built as a 'chapel-of-ease' for parishioners who thought the mother church inconvenient to access.",
-			page : "St._Paul%27s_Chapel",
-			link : "https://en.wikipedia.org/wiki/St._Paul%27s_Chapel"
+			name : "Inaguration of President George Washington",
+			coord : {lat: 40.707114, lng: -74.010461},
+			event : "The first inauguration of George Washington as the first President of the United States was held on Thursday, April 30, 1789 on the balcony of Federal Hall. Chancellor of New York Robert Livingston administered the presidential oath of office. George Washington’s statue is at the same height and street location as where he stood April 30, 1789.",
+			page : "Federal_Hall",
+			link : "https://en.wikipedia.org/wiki/Federal_Hall"
 		},
 		{
-			type : "19th Century",
-			name : "Statue of Liberty",
-			coord : {lat: 40.689250, lng: -74.044480},
-			event : "Construction of a fort on the island in the shape of an 11-point star began in 1806 and was completed in 1811 after the New York State Legislature ceded the island to the federal government. Following the War of 1812, the star-shaped fortification was named Fort Wood after Lt. Col Eleazer Derby Wood who was killed in the Siege of Fort Erie in 1813. By the time it was chosen for the Statue of Liberty, the fort was disused and its walls were used as the distinctive base for the Statue of Liberty given by France for the 1876 centenary celebrations.",
-			page : "Statue_of_Liberty",
-			link : "https://en.wikipedia.org/wiki/Statue_of_Liberty"
+			type : "18th Century",
+			name : "Washington's farewell",
+			coord : {lat: 40.703393, lng: -74.011403},
+			event : "After British troops evacuated New York on Nov. 25th, the tavern hosted a week later, an elaborate dinner on December 4, 1783, in the building's Long Room for U.S. Gen. George Washington where he bade farewell to his officers of the Continental Army by saying 'With a heart full of love and gratitude, I now take leave of you. I most devoutly wish that your latter days may be as prosperous and happy as your former ones have been glorious and honorable.'",
+			page : "Fraunces_Tavern",
+			link : "https://en.wikipedia.org/wiki/Fraunces_Tavern"
 		},
 		{
 			type : "19th Century",
@@ -39,7 +39,7 @@ var historicalLocation = [
 			type : "19th Century",
 			name : "Brooklyn Bridge",
 			coord : {lat: 40.706084, lng: -73.996864},
-			event : "Construction on the bridge—originally referred to as the New York and Brooklyn Bridge[30] and as the East River Bridge[31]— started in 1869 and was oficailly was opened for use on May 24, 1883. On that first day, a total of 1,800 vehicles and 150,300 people crossed what was then the only land passage between Manhattan and Brooklyn. The bridge cost US$15.5 million in 1883 dollars (about US$385,554,000 in today's dollars) to build and an estimated 27 people died during its construction.",
+			event : "Construction on the bridge—originally referred to as the New York and Brooklyn Bridge and as the East River Bridge— started in 1869 and was oficailly was opened for use on May 24, 1883. On that first day, a total of 1,800 vehicles and 150,300 people crossed what was then the only land passage between Manhattan and Brooklyn. The bridge cost US$15.5 million in 1883 dollars (about US$385,554,000 in today's dollars) to build and an estimated 27 people died during its construction.",
 			page : "Brooklyn_Bridge",
 			link : "https://en.wikipedia.org/wiki/Brooklyn_Bridge"
 		},
@@ -87,7 +87,6 @@ function init() {
 	var defaultIcon = 'http://maps.google.com/mapfiles/ms/icons/red.png';
 	var selectedIcon = 'http://maps.google.com/mapfiles/ms/icons/blue.png';
 
-	//var infoWindow = bindInfoWindow(marker, infoWindow);
 	var infowindow = new google.maps.InfoWindow();
 
 	for (var i = 0; i < historicalLocation.length; i++) {
@@ -105,6 +104,7 @@ function init() {
 			type: type,
 			title: name,
 			event: event,
+			page: page,
 			// Marker only drops in when corresponding century is selected.
 			animation: google.maps.Animation.DROP,
 			icon: defaultIcon
@@ -117,7 +117,7 @@ function init() {
 			return function () {
 				bindInfoWindow(this, infowindow);
 				// Open Sidebar that will containt some of the marker data and Wikipedia data.
-				//document.getElementById('bar').style.width = "335px";
+				document.getElementById('bar').style.width = "335px";
 				// Re-center map to site of marker or list item.
 				map.panTo(marker.getPosition());
 				// check to see if activeMarker is set
@@ -138,16 +138,12 @@ function init() {
 				infowindow.marker = marker;
 
 			// Ajax request to grab Wikipedia data and fill in the infoWindow (Site Info Bar).
-			getWikiData(marker, infowindow)
+			getWikiData(marker, infowindow, page)
 		}
-		document.getElementById('bar').style.width = "335px";
-		var result = marker.result;
-		document.getElementById('siteinfo').innerHTML = "<h3>Event</h3>" + "<p>" + marker.event + "</p>" + "<h3>Setting</h3>" + "<p>" + result + "</p>";
 	}
 	// Apply Knockout.js bindings so that markers are created first.
 	ko.applyBindings(new viewModel());
 };
-
 
 //// View ////
 var listView = function(data) {
@@ -193,31 +189,30 @@ var viewModel = function() {
 	};
 };
 
-function getWikiData(marker, infowindow) {
+function getWikiData(marker, infowindow, page) {
 	//// WIKIPEDIA API ////
-	$(document).ready(function() {
-		$('#siteinfo').click(function() {
-			$.ajax({
-				url: 'http://en.wikipedia.org/w/api.php',
-				dataType: 'jsonp',
-				data: {
-					action: 'query',
-					format: 'json',
-					titles: page,
-					prop: 'extracts',
-					exintro: 0,
-					grnnamespace: 0,
-					explaintext: true
-				},
-				success: function(result) {
-					var pages = result.query.pages;
-					var page = pages[Object.keys(pages)[0]];
-					//$('#siteinfo').append($('<h4>').text(page.title));
-					$('#siteinfo').append($('<p>').text(page.extract));
-				}
-				//error: function(errorMessage) {
-				//}
-			});
-		});
+	$.ajax({
+		// Source of the data.
+		url: 'http://en.wikipedia.org/w/api.php',
+		dataType: 'jsonp',
+		data: {
+			action: 'query',
+			format: 'json',
+			// Pairs the Wikipedia page associated with the marker
+			titles: marker.page,
+			prop: 'extracts',
+			// Extracts the first paragraph from the Wikipedia article.
+			exintro: 0,
+			grnnamespace: 0,
+			explaintext: true
+		},
+		success: function(result) {
+			var pages = result.query.pages;
+			var page = pages[Object.keys(pages)[0]];
+			//$('#siteinfo').append($('<h4>').text(page.title));
+			//$('#siteinfo').append($('<p>').text(page.extract));
+			document.getElementById('siteinfo').innerHTML = "<h3>" + marker.title + "</h3>" + "<h4>Event</h4>" + "<p>" + marker.event + "</p>" + 
+			"<h4>Setting</h4>" + "<p>" + page.extract + "</p>";
+		}
 	});
 };
