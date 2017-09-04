@@ -27,22 +27,6 @@ var historicalLocation = [
 			page : "Fraunces_Tavern",
 			link : "https://en.wikipedia.org/wiki/Fraunces_Tavern"
 		},
-			//{
-			//	type : "18th Century",
-			//	name : "St. Pauls Chapel of Trinity Church",
-			//	coord : {lat: 40.711313, lng: -74.009190},
-			//	event : "A chapel of the Parish of Trinity Church, St. Paul's was built on land granted by Anne, Queen of Great Britain, designed by architect Thomas McBean and built by master craftsman Andrew Gautier. Upon completion in 1766, it was the tallest building in New York City. It stood in a field some distance from the growing port city to the south and was built as a 'chapel-of-ease' for parishioners who thought the mother church inconvenient to access.",
-			//	page : "St._Paul%27s_Chapel",
-			//	link : "https://en.wikipedia.org/wiki/St._Paul%27s_Chapel"
-			//},
-			//{
-			//	type : "19th Century",
-			//	name : "Fort Wood",
-			//	coord : {lat: 40.689250, lng: -74.044480},
-			//	event : "Construction of a fort on the island in the shape of an 11-point star began in 1806 and was completed in 1811 after the New York State Legislature ceded the island to the federal government. Following the War of 1812, the star-shaped fortification was named Fort Wood after Lt. Col Eleazer Derby Wood who was killed in the Siege of Fort Erie in 1813. By the time it was chosen for the Statue of Liberty, the fort was disused and its walls were used as the distinctive base for the Statue of Liberty given by France for the 1876 centenary celebrations.",
-			//	page : null,
-			//	link : "https://en.wikipedia.org/wiki/Statue_of_Liberty"
-			//},
 		{
 			type : "19th Century",
 			name : "Ticker-Tape Parade",
@@ -131,7 +115,7 @@ function init() {
 
 		marker.addListener("click", (function(marker, i) {
 			return function () {
-				bindInfoWindow(this, infowindow);
+				//bindInfoWindow(this, infowindow);
 				// Open Sidebar that will containt some of the marker data and Wikipedia data.
 				document.getElementById('bar').style.width = "335px";
 				// Re-center map to site of marker or list item.
@@ -144,7 +128,7 @@ function init() {
 				// update the value (color) of activeMarker
 				activeMarker = marker;
 			}
-		})(marker, i))
+		})(marker, i));
 	}
 
 	function bindInfoWindow(marker, infowindow) {
@@ -154,12 +138,12 @@ function init() {
 				infowindow.marker = marker;
 
 			// Ajax request to grab Wikipedia data and fill in the infoWindow (Site Info Bar).
-			getWikiData(marker, infowindow, page)
+			getWikiData(marker, infowindow, page);
 		}
 	}
 	// Apply Knockout.js bindings so that markers are created first.
 	ko.applyBindings(new viewModel());
-};
+}
 
 //// View ////
 var listView = function(data) {
@@ -237,4 +221,4 @@ function getWikiData(marker, infowindow, page) {
 		//			"h4>Setting</h4>" + "<p>" + error + "</p>";
 		//}
 	});
-};
+}
