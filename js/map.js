@@ -27,22 +27,6 @@ var historicalLocation = [
 			page : "Fraunces_Tavern",
 			link : "https://en.wikipedia.org/wiki/Fraunces_Tavern"
 		},
-			//{
-			//	type : "18th Century",
-			//	name : "St. Pauls Chapel of Trinity Church",
-			//	coord : {lat: 40.711313, lng: -74.009190},
-			//	event : "A chapel of the Parish of Trinity Church, St. Paul's was built on land granted by Anne, Queen of Great Britain, designed by architect Thomas McBean and built by master craftsman Andrew Gautier. Upon completion in 1766, it was the tallest building in New York City. It stood in a field some distance from the growing port city to the south and was built as a 'chapel-of-ease' for parishioners who thought the mother church inconvenient to access.",
-			//	page : "St._Paul%27s_Chapel",
-			//	link : "https://en.wikipedia.org/wiki/St._Paul%27s_Chapel"
-			//},
-			//{
-			//	type : "19th Century",
-			//	name : "Fort Wood",
-			//	coord : {lat: 40.689250, lng: -74.044480},
-			//	event : "Construction of a fort on the island in the shape of an 11-point star began in 1806 and was completed in 1811 after the New York State Legislature ceded the island to the federal government. Following the War of 1812, the star-shaped fortification was named Fort Wood after Lt. Col Eleazer Derby Wood who was killed in the Siege of Fort Erie in 1813. By the time it was chosen for the Statue of Liberty, the fort was disused and its walls were used as the distinctive base for the Statue of Liberty given by France for the 1876 centenary celebrations.",
-			//	page : null,
-			//	link : "https://en.wikipedia.org/wiki/Statue_of_Liberty"
-			//},
 		{
 			type : "19th Century",
 			name : "Ticker-Tape Parade",
@@ -131,17 +115,16 @@ function init() {
 
 		marker.addListener("click", (function(marker, i) {
 			return function () {
-				//bindInfoWindow(this, infowindow);
 				// Open Sidebar that will containt some of the marker data and Wikipedia data.
 				document.getElementById('bar').style.width = "335px";
 				// Re-center map to site of marker or list item.
 				map.panTo(marker.getPosition());
-				// check to see if activeMarker is set
-				// if so, set the icon back to the default
+				// Check to see if activeMarker is set.
+				// if so, set the icon back to the default.
 				activeMarker && activeMarker.setIcon(defaultIcon);
-				// set the icon for the clicked marker
+				// Set the icon for the clicked marker.
 				marker.setIcon(selectedIcon);
-				// update the value (color) of activeMarker
+				// Ppdate the value (color) of activeMarker.
 				activeMarker = marker;
 			}
 		})(marker, i));
@@ -225,16 +208,8 @@ function getWikiData(marker, infowindow, page) {
 		success: function(result) {
 			var pages = result.query.pages;
 			var page = pages[Object.keys(pages)[0]];
-			//$('#siteinfo').append($('<h4>').text(page.title));
-			//$('#siteinfo').append($('<p>').text(page.extract));
 			document.getElementById('siteinfo').innerHTML = "<h3>" + marker.title + "</h3>" + "<h4>Event</h4>" + "<p>" + marker.event + "</p>" + 
 			"<h4>Setting</h4>" + "<p>" + page.extract + "</p>";
 		}
-		//error: function(errorMessage) {
-		//	var error = "Hmm... There does not appear to be additional information regarding this historical event.";
-		//	if (page != null)
-		//			document.getElementById('siteinfo').innerHTML = "<h4>Event</h4>" + "<p>" + marker.event + "</p>" + 
-		//			"h4>Setting</h4>" + "<p>" + error + "</p>";
-		//}
 	});
 }
