@@ -4,8 +4,7 @@ HistoryMap
 
 HistoryMap is an interactive neighborhood map of New York City. By selecting a century, the user can explore events that took place at a specific location.
 
-## Installation
-Note: Python 3 must be installed.
+## Instructions
 1. Download/clone the project repo.
 2. Launch index.html in your browser.
 3. **OR view view the project live <a href="https://anthonyschiesz.github.io/historymap/">here</a> (Hosted by GitHub Pages).**
