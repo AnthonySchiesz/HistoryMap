@@ -115,6 +115,7 @@ function init() {
 
 		marker.addListener("click", (function(marker, i) {
 			return function () {
+				bindInfoWindow(this, infowindow);
 				// Open Sidebar that will containt some of the marker data and Wikipedia data.
 				document.getElementById('bar').style.width = "335px";
 				// Re-center map to site of marker or list item.
