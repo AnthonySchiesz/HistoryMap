@@ -8,7 +8,7 @@ HistoryMap is an interactive neighborhood map of New York City. By selecting a c
 Note: Python 3 must be installed.
 1. Download/clone the project repo.
 2. Launch index.html in your browser.
-3. OR view view the project live <a href="https://anthonyschiesz.github.io/historymap/">here</a> (Hosted by GitHub Pages).
+3. **OR view view the project live <a href="https://anthonyschiesz.github.io/historymap/">here</a> (Hosted by GitHub Pages).
 
 ## Stack Utilized
 1. Javascript
