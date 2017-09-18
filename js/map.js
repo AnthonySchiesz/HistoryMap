@@ -193,7 +193,7 @@ function getWikiData(marker, infowindow, page) {
 	//// WIKIPEDIA API ////
 	$.ajax({
 		// Source of the data.
-		url: 'http://en.wikipedia.org/w/api.php',
+		url: 'https://en.wikipedia.org/w/api.php',
 		dataType: 'jsonp',
 		data: {
 			action: 'query',
